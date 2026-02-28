@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="../css/styles.css" />
+    </head>
+    <body>
+        <style>
+            #rizzText {
+                text-align: center;
+                font-size: 30px;
+            }
+        </style>
+        <h2><a href="../index.html">Go back</a></h2>
+        <small
+            >(so.. 😭 after reading some of these lines i think its worth
+            mentioning that they are auto fetched from a random site)</small
+        >
+        <button id="rizzBtn">rizz</button>
+        <p id="rizzText">Press button for random rizz</p>
+
+        <script src="../js/bg.js"></script>
+        <script>
+            const rizzBtn = document.getElementById("rizzBtn");
+            const rizzText = document.getElementById("rizzText");
+
+            rizzBtn.addEventListener("click", async () => {
+                rizzText.textContent = "loading...";
+
+                const res = await fetch("https://rizzapi.vercel.app/random");
+                const data = await res.json();
+
+                rizzText.textContent = data.text;
+            });
+        </script>
+    </body>
+</html>
