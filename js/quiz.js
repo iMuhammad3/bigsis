@@ -3,86 +3,39 @@ const allQuestions = [
         question: "My favorite way to spend free time?",
         answers: [
             "Sleeping",
-            "Learning",
+            "Rage baiting you",
             "Overthinking life",
             "All of the above",
         ],
         correct: 4,
-        difficulty: "medium",
     },
     {
-        question: "What describes me best?",
-        answers: ["Chill", "Quiet but deep", "Funny", "A bit of everything"],
-        correct: 4,
-        difficulty: "medium",
-    },
-    {
-        question: "What’s my love language?",
-        answers: ["Words", "Quality Time", "Physical touch", "Gifts"],
-        correct: 2,
-        difficulty: "medium",
+        question: "When's my birthday'",
+        answers: ["06 june", "11 june", "13 june", "16 june"],
+        correct: 3,
     },
     {
         question: "What scares me more?",
-        answers: ["Failure", "Wasted potential", "Being misunderstood"],
+        answers: ["Failure", "Wasted potential", "Being misunderstood", "Cockroaches"],
         correct: 3,
-        difficulty: "medium",
     },
     {
         question: "My biggest insecurity is",
-        answers: ["I have the face of a child", "My car", "I'm short", "I don't have any"],
+        answers: ["I look like my sisters classmates'", "My car", "I'm short", "I don't have any"],
         correct: 1,
-        difficulty: "medium",
     },
     {
-        question: "The Surah I recite most often is",
-        answers: ["Kahf", "Saffat", "Yusuf", "Naml"],
+        question: "Am I a manipulator",
+        answers: ["yes","no"],
         correct: 1,
-        difficulty: "medium",
     },
-    {
-        question: "What do I lie about most",
-        answers: ["How I really feel", "What I think of myself", "I seldom lie", "I lie about everything"],
-        correct: 1,
-        difficulty: "medium",
-    },
-    {
-        question: "What am I most conscious of",
-        answers: ["My emotions", "My thoughts", "My surroundings"],
-        correct: 2,
-        difficulty: "medium",
-    },
-    
     {
         question: "In my friend group, what role do I play",
-        answers: ["Quiet one", "Silly and Goofy", "The driver", "The planner"],
-        correct: 2,
-        difficulty: "medium",
-    },
-    {
-        question: "Which is my least favorite of these series",
-        answers: [
-            "Suits",
-            "The Good Doctor",
-            "Peaky Blinders",
-            "Young Sheldon",
-        ],
-        correct: 3,
-        difficulty: "hard",
-    },
-    {
-        question: "How many online chess games have I played",
-        answers: [
-            "10+",
-            "100+",
-            "1000+",
-            "5000+",
-        ],
+        answers: ["Quiet one", "The driver", "Mature", "Silly and Goofy"],
         correct: 4,
-        difficulty: "hard",
     },
     {
-        question: "What's a name I'd give to my son",
+        question: "If I had one son, what would I name him",
         answers: [
             "Ibrahim",
             "Abdullah",
@@ -90,21 +43,19 @@ const allQuestions = [
             "Chukwuemeka",
         ],
         correct: 1,
-        difficulty: "hard",
     },
     {
         question: "What keeps me up at night",
         answers: [
             "I sleep like a baby",
             "Existential dread",
-            "Daily worries and stress",
+            "Thoughts of a life without you",
             "Mental stimulation",
         ],
         correct: 3,
-        difficulty: "hard",
     },
     {
-        question: "Which am I afraid of",
+        question: "Which am I afraid of more",
         answers: [
             "To fail time and time again",
             "To be rejected by someone I highly respect",
@@ -112,7 +63,31 @@ const allQuestions = [
             "Change and uncertainty",
         ],
         correct: 2,
-        difficulty: "hard",
+    },
+    {
+        question: "Who do i hate more",
+        answers: ["Dogo", "Hanif", "Tariq", "Hirah"],
+        correct: 4
+    },
+    {
+        question: "What i hate most about you",
+        answers: ["Your nose", "Constantly rejecting me", "not opening my tiktoks", "none of da above"],
+        correct: 3
+    },
+    {
+        question: "My favorite memory with you",
+        answers: ["Late night calls", "Driving you home", "Walking you home",],
+        correct: 1
+    },
+    {
+        question: "How many pics of you do I have in my photos",
+        answers: ["1", "around 5", "9+", "17"],
+        correct: 3
+    },
+    {
+        question: "What i love most about you",
+        answers: ["Your sense of humor", "Your fine face", "Your ****", "you"],
+        correct: 4
     },
     {
         question: "Why did I make this website",
@@ -123,14 +98,11 @@ const allQuestions = [
             "All of the above",
         ],
         correct: 3,
-        difficulty: "hard",
     },
 ];
-
-const difficultySelect = document.getElementById("difficulty-select");
 const quizEl = document.getElementById("quiz");
 
-let questions = [];
+let questions = allQuestions;   // use all questions directly
 let currentQuestion = 0;
 let score = 0;
 
@@ -139,14 +111,13 @@ const answersEl = document.getElementById("answers");
 const scoreEl = document.getElementById("score");
 const restartBtn = document.getElementById("restart");
 
-function startQuiz(level) {
-    questions = allQuestions.filter(q => q.difficulty === level);
-
-    difficultySelect.classList.add("hidden");
-    quizEl.classList.remove("hidden");
-
+function startQuiz() {
     currentQuestion = 0;
     score = 0;
+
+    quizEl.classList.remove("hidden");
+    scoreEl.classList.add("hidden");
+    restartBtn.classList.add("hidden");
 
     showQuestion();
 }
@@ -165,9 +136,7 @@ function showQuestion() {
 }
 
 function checkAnswer(index) {
-    console.log(questions[currentQuestion].correct);
-    
-    if ((index+1) === questions[currentQuestion].correct) {
+    if ((index + 1) === questions[currentQuestion].correct) {
         score++;
     }
 
@@ -181,7 +150,7 @@ function checkAnswer(index) {
 }
 
 function showResult() {
-    document.getElementById("quiz").classList.add("hidden");
+    quizEl.classList.add("hidden");
     scoreEl.classList.remove("hidden");
     restartBtn.classList.remove("hidden");
 
@@ -195,14 +164,10 @@ function showResult() {
         message = "💀 you no try sha";
     }
 
-    scoreEl.innerHTML = `You scored ${score}/${questions.length}.<br> ${message}`;
+    scoreEl.innerHTML = `You scored ${score}/${questions.length}.<br>${message}`;
 }
 
-restartBtn.onclick = () => {
-    score = 0;
-    currentQuestion = 0;
-    document.getElementById("quiz").classList.remove("hidden");
-    scoreEl.classList.add("hidden");
-    restartBtn.classList.add("hidden");
-    showQuestion();
-};
+restartBtn.onclick = startQuiz;
+
+// start quiz immediately when page loads
+startQuiz();
